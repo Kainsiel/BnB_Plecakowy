@@ -16,12 +16,20 @@ struct Item
 {
 	double weight;
 	double value;
+
+	bool operator<(const Item &o) const{
+		return value < o.value;
+	}
 };
 
 struct Node
 {
 	int level, profit, bound;
 	float weight;
+
+	bool operator<(const Node &o) const{
+		return profit < o.profit;
+	}
 };
 
 class Solver
@@ -175,17 +183,17 @@ public:
 	
 		sort(items, items + n, Porownaj);
 
-		queue<Node> Q;
+		int maxprofit = 0;
+		priority_queue<Node> Q;
 		Node u, v;
 
 		u.level = -1;
 		u.profit = u.weight = 0;
 		Q.push(u);
-
-		int maxprofit = 0;
+		
 		while (!Q.empty())
 		{
-			u = Q.front();
+			u = Q.top();
 			Q.pop();
 
 			if (u.level == -1)
